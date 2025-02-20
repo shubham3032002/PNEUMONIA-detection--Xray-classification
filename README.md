@@ -1,157 +1,56 @@
-import torch.nn as nn
-import torch.nn.functional as F
+#### Pneumonia Detection in X-ray Images
+This project implements a deep learning model to detect pneumonia in chest X-rays. The solution is designed with modular programming principles, leverages AWS S3 for data storage, Docker for containerization, GitHub Actions for CI/CD, and deployment on AWS EC2 for scalability.
+#### Features
+- **Accurate Classification:** Detects pneumonia from chest X-ray images with a pretrained PyTorch model.
+- **Modular Architecture:** Clean separation of preprocessing, prediction, and AWS S3 interaction modules.
+- **Cloud Data Storage:** Images, results, and models are stored securely in AWS S3.
+- **Dockerized Deployment:** Ensures reproducibility and smooth containerized deployment.
+- **Automated CI/CD:** GitHub Actions pipeline for testing, building, and deploying the application.
+- **Scalable Deployment:** Runs efficiently on AWS EC2 for global accessibility.
+
+#### Project Workflow
+- **User Uploads:** X-ray images are uploaded through a Streamlit app.
+- **Preprocessing:** Images are resized and converted to tensors for model inference.
+- **Prediction:** A pretrained PyTorch model identifies whether the X-ray is normal or shows pneumonia.
+- **Storage:** Uploaded images and results are stored in AWS S3.
+- **Deployment:** Dockerized app is deployed on AWS EC2 via CI/CD pipeline.
 
 
-class Net(nn.Module):
-    def __init__(self):
-        """
-        Creating custom CNN architecture for Image classification
-        """
-        super(Net, self).__init__()
+##### Installation
+###### Prerequisites
+- Python >= 3.8
+- Docker and Docker Compose
+- AWS CLI configured with your credentials
+- An S3 bucket and EC2 instance set up on AWS
 
-        self.convolution_block1 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=3, out_channels=8, kernel_size=(3, 3), padding=0, bias=True
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(8),
-        )
+##### Step 1: Clone the Repository
+            git clone https://github.com/shubham3032002/PNEUMONIA-detection--Xray-classification.git
 
-        self.pooling11 = nn.MaxPool2d(2, 2)
+#####  Step 2: Install Dependencies       
+                  pip install -r requirements.txt
 
-        self.convolution_block2 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=8, out_channels=20, kernel_size=(3, 3), padding=0, bias=True
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(20),
-        )
+##### Step 3: Set AWS Configuration in Git action   :
+               AWS_ACCESS_KEY_ID=your-access-key
+               AWS_SECRET_ACCESS_KEY=your-secret-key
+               AWS_REGION = 
+               DOCKER_USERNAME =
+               DOCKER_PASSWORD =
+               IMAGE_NAME =
+               RESITORY
+###### Step 4: Run the App Locally
+                streamlit run app/streamlit_app.py
 
-        self.pooling22 = nn.MaxPool2d(2, 2)
+               
 
-        self.convolution_block3 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=20,
-                out_channels=10,
-                kernel_size=(1, 1),
-                padding=0,
-                bias=True,
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(10),
-        )
+              
+##### UI
+![alt text](image.png)
 
-        self.pooling33 = nn.MaxPool2d(2, 2)
 
-        self.convolution_block4 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=10,
-                out_channels=20,
-                kernel_size=(3, 3),
-                padding=0,
-                bias=True,
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(20),
-        )
 
-        self.convolution_block5 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=20,
-                out_channels=32,
-                kernel_size=(1, 1),
-                padding=0,
-                bias=True,
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(32),
-        )
 
-        self.convolution_block6 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=32,
-                out_channels=10,
-                kernel_size=(3, 3),
-                padding=0,
-                bias=True,
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(10),
-        )
 
-        self.convolution_block7 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=10,
-                out_channels=10,
-                kernel_size=(1, 1),
-                padding=0,
-                bias=True,
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(10),
-        )
+      
+##### License
+This project is licensed under the MIT License. See LICENSE for more details.
 
-        self.convolution_block8 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=10,
-                out_channels=14,
-                kernel_size=(3, 3),
-                padding=0,
-                bias=True,
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(14),
-        )
-
-        self.convolution_block9 = nn.Sequential(
-            nn.Conv2d(
-                in_channels=14,
-                out_channels=16,
-                kernel_size=(3, 3),
-                padding=0,
-                bias=True,
-            ),
-            nn.ReLU(),
-            nn.BatchNorm2d(16),
-        )
-
-        self.gap = nn.Sequential(nn.AvgPool2d(kernel_size=4))
-
-        self.convolution_block_out = nn.Sequential(
-            nn.Conv2d(
-                in_channels=16, out_channels=2, kernel_size=(4, 4), padding=0, bias=True
-            ),
-        )
-
-    def forward(self, x) -> float:
-        x = self.convolution_block1(x)
-
-        x = self.pooling11(x)
-
-        x = self.convolution_block2(x)
-
-        x = self.pooling22(x)
-
-        x = self.convolution_block3(x)
-
-        x = self.pooling33(x)
-
-        x = self.convolution_block4(x)
-
-        x = self.convolution_block5(x)
-
-        x = self.convolution_block6(x)
-
-        x = self.convolution_block7(x)
-
-        x = self.convolution_block8(x)
-
-        x = self.convolution_block9(x)
-
-        x = self.gap(x)
-
-        x = self.convolution_block_out(x)
-
-        x = x.view(-1, 2)
-
-        return F.log_softmax(x, dim=-1)
