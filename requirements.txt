@@ -1,0 +1,17 @@
+tentoml
+torchvision
+joblib
+tqdm
+pip.chill
+wincertstore
+joblib
+pip-chill
+torchvisio
+tqdm
+wincertstore
+boto3
+mypy-boto3-s3
+streamlit 
+torch
+-e .
+
