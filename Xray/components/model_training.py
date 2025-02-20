@@ -1,6 +1,5 @@
 import os
 import sys
-
 import bentoml
 import joblib
 import torch
@@ -190,7 +189,7 @@ class ModelTrainer:
 
                 optimizer.step()
 
-                sched
+                
                 self.test()
 
             os.makedirs(self.model_trainer_config.artifact_dir, exist_ok=True)

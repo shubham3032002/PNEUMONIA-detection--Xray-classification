@@ -4,7 +4,7 @@ from Xray.components.data_ingestion import DataIngestion
 from Xray.components.data_transformation import DataTransformation
 from Xray.components.model_training import ModelTrainer
 from Xray.components.model_evaluation import ModelEvaluation
-from Xray.components.model_pusher import ModelPusher
+# from Xray.components.model_pusher import ModelPusher
 
 
 
@@ -13,7 +13,7 @@ from Xray.entity.artifact_entity import (
     DataTransformationArtifact,
     ModelTrainerArtifact,
     ModelEvaluationArtifact,
-    ModelPusherArtifact
+    # ModelPusherArtifact
    
 )
 
@@ -23,7 +23,7 @@ from Xray.entity.config_entity import (
     DataTransformationConfig,
     ModelTrainerConfig,
     ModelEvaluationConfig,
-    ModelPusherConfig
+    # ModelPusherConfig
   
 )
 
@@ -143,20 +143,20 @@ class TrainPipeline:
         except Exception as e:
             raise XRayException(e, sys)
 
-    def start_model_pusher(self) -> ModelPusherArtifact:
-        logging.info("Entered the start_model_pusher method of TrainPipeline class")
+    # def start_model_pusher(self) -> ModelPusherArtifact:
+    #     logging.info("Entered the start_model_pusher method of TrainPipeline class")
 
-        try:
-            model_pusher = ModelPusher(model_pusher_config=self.model_pusher_config)
+    #     try:
+    #         model_pusher = ModelPusher(model_pusher_config=self.model_pusher_config)
 
-            model_pusher_artifact = model_pusher.initiate_model_pusher()
+    #         model_pusher_artifact = model_pusher.initiate_model_pusher()
 
-            logging.info("Exited the start_model_pusher method of TrainPipeline class")
+    #         logging.info("Exited the start_model_pusher method of TrainPipeline class")
 
-            return model_pusher_artifact
+    #         return model_pusher_artifact
 
-        except Exception as e:
-            raise XRayException(e, sys)
+    #     except Exception as e:
+    #         raise XRayException(e, sys)
 
 
 
